@@ -98,8 +98,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-- **Author:** [Your Name](https://github.com/yourusername)
-- **Email:** your.email@example.com
+- **Author:** https://github.com/0x7l
+
 
 ---
 
