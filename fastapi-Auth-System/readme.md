@@ -1,107 +1,142 @@
-# Backend Security Projects
+# FastAPI User Authentication System
 
-A curated collection of backend-focused projects that emphasize secure coding practices, authentication mechanisms, and vulnerability mitigation strategies. This repository is designed for developers, cybersecurity enthusiasts, and students to explore and learn secure development methodologies.
-
----
-
-## Projects Included
-
-1. **Secure Login System**
-   - **Description:** A secure login system using FastAPI and MySQL.
-   - **Features:**
-     - User authentication with username and password.
-     - SQL Injection prevention.
-     - Signup and login endpoints.
-     - Data validation using Pydantic models.
-
-2. **Authentication Hub**
-   - **Description:** A project showcasing multiple authentication methods such as JWT, OAuth2, and Session-based authentication.
-   - **Features:**
-     - JWT token generation and validation.
-     - Role-based access control.
-     - Password hashing with secure algorithms.
-
-3. **IDOR Lab**
-   - **Description:** A lab to demonstrate Insecure Direct Object References (IDOR) vulnerabilities and how to secure them.
-   - **Features:**
-     - Demonstration of IDOR exploitation.
-     - Implementation of secure authorization checks.
-
-4. **Rate Limiting System**
-   - **Description:** A project implementing rate limiting to prevent brute force attacks.
-   - **Features:**
-     - Request throttling.
-     - IP-based rate limiting.
-     - Customizable rate-limiting rules.
+A robust and scalable user authentication system built using FastAPI, SQLAlchemy, and MySQL. This project demonstrates essential functionalities such as user signup, user login, and retrieving user details after successful login.
 
 ---
 
-## Getting Started
+## Features
 
-### Prerequisites
+### User Signup
+- Allows users to register with the following details:
+  - `username`
+  - `password`
+  - `email`
+  - `mobile`
+  - `date of birth`
+  - `name`
+  - `location`
+  - `father’s name`
+- Validates the input fields to ensure data integrity.
+- Stores user details securely in a MySQL database.
 
-- Python 3.8+
-- MySQL database
-- Virtual environment tools (optional but recommended)
+### User Login
+- Enables users to log in using their username and password.
+- Validates credentials against the database.
+- Provides a success response if credentials are correct or an error if they are invalid.
 
-### Installation
+### Retrieve User Details
+- After a successful login, displays the user information provided during signup.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/backend-security-projects.git
-   cd backend-security-projects
-   ```
+### SQLAlchemy ORM
+- Leverages SQLAlchemy for efficient interaction with the MySQL database.
 
-2. Set up a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate # On Windows use `venv\Scripts\activate`
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Set up the database:
-   - Create a MySQL database (e.g., `backend_security`).
-   - Update the `DATABASE_URL` in the project files with your MySQL credentials.
-
-5. Run the application:
-   ```bash
-   uvicorn main:app --reload
-   ```
-
-### Testing
-
-Use tools like Postman or cURL to test the endpoints provided in each project.
+### Secure Practices
+- Input validation using Pydantic.
+- Code designed to prevent SQL injection by relying on ORM methods.
 
 ---
 
-## Contribution
+## Endpoints
 
-Contributions are welcome! If you'd like to contribute:
+### 1. Signup
+**URL:** `/signup`  
+**Method:** `POST`  
+**Query Parameters:**
+- `username` (string) - Required
+- `password` (string) - Required
+- `email` (string) - Required
+- `mobile` (integer) - Required
+- `dob` (string) - Required
+- `name` (string) - Required
+- `location` (string) - Required
+- `fathername` (string) - Required  
 
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature-name`.
-3. Commit your changes: `git commit -m "Add feature description"`.
-4. Push to your branch: `git push origin feature-name`.
-5. Open a pull request.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Contact
-
-- **Author:** https://github.com/0x7l
-
+**Response:**
+- `200`: Signup successful.
+- `422`: Validation error.
 
 ---
 
-Explore the projects and enhance your understanding of secure backend development!
+### 2. Login
+**URL:** `/login`  
+**Method:** `POST`  
+**Request Body:**
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
 
+Response:
+
+    200: Login successful, returns the username.
+    401: Invalid credentials.
+    422: Validation error.
+
+3. Get User Details
+
+URL: /details
+Method: GET
+Response:
+
+    Returns all user details submitted during signup.
+
+Installation
+Prerequisites
+
+    Python 3.9+
+    MySQL Server
+
+Setup Instructions
+
+    Clone the repository:
+
+git clone https://github.com/your-username/fastapi-auth-system.git
+cd fastapi-auth-system
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Configure the database:
+
+    Update the DATABASE_URL in the code:
+
+    DATABASE_URL = "mysql+pymysql://<username>:<password>@<host>/<database_name>"
+
+Apply database migrations:
+
+python main.py
+
+Run the FastAPI server:
+
+    uvicorn main:app --reload
+
+    Access the API documentation at:
+        Swagger UI: http://127.0.0.1:8000/docs
+        ReDoc: http://127.0.0.1:8000/redoc
+
+Folder Structure
+
+fastapi-auth-system/
+├── main.py          # Entry point of the application
+├── models.py        # SQLAlchemy models
+├── schemas.py       # Pydantic schemas for validation
+├── database.py      # Database setup and session configuration
+├── requirements.txt # Python dependencies
+└── README.md        # Project description and documentation
+
+Future Enhancements
+
+    Implement password hashing for secure storage using bcrypt or argon2.
+    Add JWT-based authentication for token management.
+    Add role-based access control (RBAC).
+    Implement email verification during signup.
+    Add rate-limiting to prevent brute-force attacks on login.
+
+Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+License
+
+This project is licensed under the MIT License.
