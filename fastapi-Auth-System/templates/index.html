@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI User Signup and Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-container form {
+            margin-bottom: 20px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        #userDetails {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+        }
+        #userDetails p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>FastAPI User Signup and Login</h1>
+
+    <div class="form-container">
+        <!-- Signup Form -->
+        <h2>Signup</h2>
+        <form id="signupForm">
+            <input type="text" id="signupUsername" placeholder="Username" required>
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <input type="text" id="signupMobile" placeholder="Mobile Number" required>
+            <input type="text" id="signupDob" placeholder="Date of Birth" required>
+            <input type="email" id="signupEmail" placeholder="Email" required>
+            <input type="text" id="signupName" placeholder="Full Name" required>
+            <input type="text" id="signupLocation" placeholder="Location" required>
+            <input type="text" id="signupFathername" placeholder="Father's Name" required>
+            <button type="submit">Signup</button>
+        </form>
+        
+        <!-- Login Form -->
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="Username" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Display User Details -->
+    <div id="userDetails">
+        <h3>Welcome, <span id="userName"></span></h3>
+        <p><strong>Mobile:</strong> <span id="userMobile"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="userDob"></span></p>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+        <p><strong>Name:</strong> <span id="userFullName"></span></p>
+        <p><strong>Location:</strong> <span id="userLocation"></span></p>
+        <p><strong>Father's Name:</strong> <span id="userFathername"></span></p>
+    </div>
+
+    <script>
+        // Handle Signup Form submission
+        document.getElementById('signupForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = {
+                username: document.getElementById('signupUsername').value,
+                password: document.getElementById('signupPassword').value,
+                mobile: document.getElementById('signupMobile').value,
+                dob: document.getElementById('signupDob').value,
+                email: document.getElementById('signupEmail').value,
+                name: document.getElementById('signupName').value,
+                location: document.getElementById('signupLocation').value,
+                fathername: document.getElementById('signupFathername').value,
+            };
+
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert('Signup successful');
+            } else {
+                alert('Error: ' + result.detail);
+            }
+        });
+
+        // Handle Login Form submission
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const loginData = {
+                username: document.getElementById('loginUsername').value,
+                password: document.getElementById('loginPassword').value,
+            };
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                // Display user data after successful login
+                document.getElementById('userDetails').style.display = 'block';
+                document.getElementById('userName').textContent = result.username;
+                document.getElementById('userMobile').textContent = result.mobile;
+                document.getElementById('userDob').textContent = result.dob;
+                document.getElementById('userEmail').textContent = result.email;
+                document.getElementById('userFullName').textContent = result.name;
+                document.getElementById('userLocation').textContent = result.location;
+                document.getElementById('userFathername').textContent = result.fathername;
+            } else {
+                alert('Error: ' + result.detail);
+            }
+        });
+    </script>
+</body>
+</html>
