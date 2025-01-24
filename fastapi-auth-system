@@ -1,0 +1,126 @@
+Here's a README for your project "fastapi-auth-system":
+FastAPI Auth System
+Overview
+
+FastAPI Auth System is a user authentication and management project built with FastAPI. This system provides endpoints for user signup, login, and secure access to user data after authentication. It serves as a practical example of implementing authentication workflows in a backend system.
+Features
+
+    User Signup: Register new users with details like username, password, email, and more.
+    User Login: Authenticate users with secure credentials.
+    Retrieve User Data: Fetch user details securely after successful login.
+    Database Integration: Store user information in a MySQL database.
+    SQLAlchemy ORM: Utilize SQLAlchemy for database operations.
+    Pydantic Validation: Enforce input validation using Pydantic models.
+
+Prerequisites
+
+    Python 3.9 or later
+    MySQL database
+    FastAPI, SQLAlchemy, and related dependencies
+
+Installation
+
+    Clone the Repository:
+
+git clone https://github.com/yourusername/fastapi-auth-system.git  
+cd fastapi-auth-system  
+
+Create a Virtual Environment:
+
+python -m venv venv  
+source venv/bin/activate # On Windows, use `venv\Scripts\activate`  
+
+Install Dependencies:
+
+pip install -r requirements.txt  
+
+Configure Database:
+
+    Update the DATABASE_URL in the code to match your MySQL configuration:
+
+    DATABASE_URL = "mysql+pymysql://<username>:<password>@<host>/<database>"  
+
+Run Database Migrations:
+
+python -m alembic upgrade head  
+
+Start the Server:
+
+    uvicorn main:app --reload  
+
+    Open the API documentation:
+    Visit http://127.0.0.1:8000/docs
+
+API Endpoints
+1. Signup
+
+POST /signup
+Registers a new user.
+
+Parameters (query):
+
+    username (string, required)
+    password (string, required)
+    email (string, required)
+    mobile (integer, required)
+    dob (string, required)
+    name (string, required)
+    location (string, required)
+    fathername (string, required)
+
+Response:
+
+{  
+  "message": "User created successfully!"  
+}  
+
+2. Login
+
+POST /login
+Authenticates the user.
+
+Body:
+
+{  
+  "username": "user123",  
+  "password": "mypassword"  
+}  
+
+Response:
+
+{  
+  "message": "Login successful",  
+  "username": "user123"  
+}  
+
+3. Get User Data
+
+GET /userdata (after login)
+Fetches all the data provided during signup.
+
+Headers:
+
+    Include token if JWT is implemented.
+
+Project Structure
+
+fastapi-auth-system/  
+├── main.py              # FastAPI application entry point  
+├── models.py            # SQLAlchemy models for database  
+├── schemas.py           # Pydantic models for request validation  
+├── routes/              # API endpoints  
+├── database.py          # Database connection and session setup  
+├── README.md            # Project documentation  
+└── requirements.txt     # Dependencies  
+
+Technologies Used
+
+    FastAPI: High-performance web framework for Python
+    SQLAlchemy: ORM for database management
+    Pydantic: Input validation
+    Uvicorn: ASGI server for running FastAPI apps
+    MySQL: Relational database
+
+License
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
